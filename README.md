@@ -1,39 +1,56 @@
-<h1 align="center">Realtime Spotify Application ✨</h1>
 
-![Demo App](/frontend/public/screenshot-for-readme.png)
+---
 
-[Watch Full Tutorial on Youtube](https://youtu.be/4sbklcQ0EXc)
+## 🎧 Butter — Music Streaming Web App  
+**Created by Hemant Kumar**
 
-About This Course:
+Butter is a full-featured, real-time music streaming platform designed for seamless listening, social interaction, and personalized discovery. Built with a modern tech stack and a vibrant UI, it transforms music into a shared experience.
 
--   🎸 Listen to music, play next and previous songs
--   🔈 Update the volume with a slider
--   🎧 Admin dashboard to create albums and songs
--   💬 Real-time Chat App integrated into Spotify
--   👨🏼‍💼 Online/Offline status
--   👀 See what other users are listening to in real-time
--   📊 Aggregate data for the analytics page
--   🚀 And a lot more...
+---
 
-### Setup .env file in _backend_ folder
+### 🚀 Features
 
-```bash
-PORT=...
-MONGODB_URI=...
-ADMIN_EMAIL=...
-NODE_ENV=...
+#### 🎵 Music Streaming
+- **Play songs instantly** with smooth playback controls
+- **Curated playlists** featuring trending tracks and themed collections
+- **Made For You section** with personalized recommendations based on listening history
+- **Album and track previews** with cover art and artist details
 
-CLOUDINARY_API_KEY=...
-CLOUDINARY_API_SECRET=...
-CLOUDINARY_CLOUD_NAME=...
+#### 💬 Real-Time Chat System
+- **Live messaging** with friends while listening to music
+- **Integrated chat UI** for seamless interaction without leaving the player
+- **User presence indicators** (e.g., Idle, Active) to show who's online
+
+#### 👀 Friend Activity Tracking
+- **See what your friends are listening to** in real time
+- **User status updates** displayed in the sidebar
+- **Social listening** features to discover new music through your network
+
+#### 🎨 Interactive UI
+- **Dark theme with butter-yellow highlights** for a bold, modern look
+- **Responsive layout** optimized for desktop and mobile
+- **Playback bar** with animated progress, volume control, and track info
+- **Dynamic album grid** for easy browsing and discovery
+
+#### 🛠️ Backend & Database
+- **MongoDB integration** for user data, playlists, and activity tracking
+- **Real-time updates** using WebSockets or similar technology
+- **Efficient indexing** and schema design for fast queries
+
+---
+
+### 👨‍💻 Author  
+Developed by **Hemant Kumar**, a passionate software developer and student at Atria Institute of Technology. This project blends his interests in real-time systems, UI/UX design, and full-stack development.
+
+---
 
 
-CLERK_PUBLISHABLE_KEY=...
-CLERK_SECRET_KEY=...
-```
+---
 
-### Setup .env file in _frontend_ folder
 
-```bash
-VITE_CLERK_PUBLISHABLE_KEY=...
-```
+---
+
+### 📬 Contributions
+Feel free to fork, open issues, or submit pull requests. Feedback and collaboration are welcome!
+
+
