@@ -6,12 +6,14 @@ import { HeadphonesIcon, Music, Users } from "lucide-react";
 import { useEffect } from "react";
 
 const FriendsActivity = () => {
-	const { users, fetchUsers, onlineUsers, userActivities } = useChatStore();
+	const { onlineUsers, userActivities, users, shareActivity, setShareActivity } = useChatStore() as any;
 	const { user } = useUser();
 
 	useEffect(() => {
-		if (user) fetchUsers();
-	}, [fetchUsers, user]);
+		if (user && users.length === 0) {
+			// Users are already fetched in ChatPage, no need to fetch again
+		}
+	}, [user, users]);
 
 	return (
 		<div className='h-full bg-zinc-900 rounded-lg flex flex-col'>
@@ -20,13 +22,24 @@ const FriendsActivity = () => {
 					<Users className='size-5 shrink-0' />
 					<h2 className='font-semibold'>What they're listening to</h2>
 				</div>
+				<button
+					className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border transition-colors
+						${shareActivity ? "bg-emerald-500/10 border-emerald-500 text-emerald-300" : "bg-zinc-800 border-zinc-600 text-zinc-300"}
+					`}
+					onClick={() => setShareActivity(!shareActivity)}
+				>
+					<span
+						className={`h-2 w-2 rounded-full ${shareActivity ? "bg-emerald-400" : "bg-zinc-500"}`}
+					/>
+					{shareActivity ? "Activity On" : "Activity Off"}
+				</button>
 			</div>
 
 			{!user && <LoginPrompt />}
 
 			<ScrollArea className='flex-1'>
 				<div className='p-4 space-y-4'>
-					{users.map((user) => {
+					{users.map((user: any) => {
 						const activity = userActivities.get(user.clerkId);
 						const isPlaying = activity && activity !== "Idle";
 

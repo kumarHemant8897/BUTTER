@@ -30,13 +30,20 @@ if (!process.env.MONGODB_URI || !process.env.PORT || !process.env.CLERK_PUBLISHA
 const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT || "5000";
+// Allow configuring CORS origins via env (comma-separated). Defaults to localhost for dev.
+const CORS_ORIGINS = (process.env.CORS_ORIGIN || "http://localhost:3000")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+// Portable temp directory: use /tmp in production platforms like Render
+const TEMP_DIR = process.env.TEMP_DIR || (process.env.NODE_ENV === "production" ? "/tmp" : path.join(__dirname, "tmp"));
 
 const httpServer = createServer(app);
 initializeSocket(httpServer);
 
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: CORS_ORIGINS,
 		credentials: true,
 	})
 );
@@ -46,7 +53,7 @@ app.use(clerkMiddleware()); // this will add auth to req obj => req.auth
 app.use(
 	fileUpload({
 		useTempFiles: true,
-		tempFileDir: path.join(__dirname, "tmp"),
+		tempFileDir: TEMP_DIR,
 		createParentPath: true,
 		limits: {
 			fileSize: 10 * 1024 * 1024, // 10MB  max file size
@@ -55,7 +62,7 @@ app.use(
 );
 
 // cron jobs
-const tempDir = path.join(process.cwd(), "tmp");
+const tempDir = TEMP_DIR;
 cron.schedule("0 * * * *", () => {
 	if (fs.existsSync(tempDir)) {
 		fs.readdir(tempDir, (err, files) => {

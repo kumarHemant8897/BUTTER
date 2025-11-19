@@ -55,6 +55,13 @@ const songs = [
 		duration: 39, // 0:39
 	},
 	{
+		title: "Noor E khuda",
+		artist: "Shahrukh Khan, Kajol",
+		imageUrl: "/cover-images/19.jpg",
+		audioUrl: "/songs/19.mp3",
+		duration: 380, // 7:00
+	},
+	{
 		title: "Desert Wind",
 		artist: "Sahara Sons",
 		imageUrl: "/cover-images/8.jpg",

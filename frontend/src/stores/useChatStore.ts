@@ -13,6 +13,7 @@ interface ChatStore {
 	userActivities: Map<string, string>;
 	messages: Message[];
 	selectedUser: User | null;
+	shareActivity: boolean;
 
 	fetchUsers: () => Promise<void>;
 	initSocket: (userId: string) => void;
@@ -22,7 +23,11 @@ interface ChatStore {
 	setSelectedUser: (user: User | null) => void;
 }
 
-const baseURL = import.meta.env.MODE === "development" ? "http://localhost:5000" : "/";
+const baseURL =
+    import.meta.env.MODE === "development"
+        ? "http://localhost:5000"
+        : ((import.meta.env.VITE_SOCKET_URL as string) ||
+              ((import.meta.env.VITE_API_URL as string)?.replace(/\/api\/?$/, "") || "/"));
 
 const socket = io(baseURL, {
 	autoConnect: false, // only connect if user is authenticated
@@ -39,6 +44,21 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 	userActivities: new Map(),
 	messages: [],
 	selectedUser: null,
+	shareActivity: true,
+
+	setShareActivity: (value: boolean) => {
+		set({ shareActivity: value });
+		const socket = get().socket;
+		if (socket && socket.auth) {
+			// when turning off sharing, immediately set activity to Idle
+			if (!value) {
+				socket.emit("update_activity", {
+					userId: socket.auth.userId,
+					activity: "Idle",
+				});
+			}
+		}
+	},
 
 	setSelectedUser: (user) => set({ selectedUser: user }),
 

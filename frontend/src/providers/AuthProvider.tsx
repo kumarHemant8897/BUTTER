@@ -6,8 +6,13 @@ import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const updateApiToken = (token: string | null) => {
-	if (token) axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-	else delete axiosInstance.defaults.headers.common["Authorization"];
+	if (token) {
+		axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+		console.log("Set Authorization header");
+	} else {
+		delete axiosInstance.defaults.headers.common["Authorization"];
+		console.log("Removed Authorization header");
+	}
 };
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -20,6 +25,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		const initAuth = async () => {
 			try {
 				const token = await getToken();
+				console.log("Retrieved token:", token ? "Token exists" : "No token");
 				updateApiToken(token);
 				if (token) {
 					await checkAdminStatus();
@@ -27,8 +33,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 					if (userId) initSocket(userId);
 				}
 			} catch (error: any) {
-				updateApiToken(null);
 				console.log("Error in auth provider", error);
+				updateApiToken(null);
 			} finally {
 				setLoading(false);
 			}

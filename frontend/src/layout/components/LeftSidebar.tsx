@@ -49,6 +49,18 @@ const LeftSidebar = () => {
 							<MessageCircle className='mr-2 size-5' />
 							<span className='hidden md:inline'>Messages</span>
 						</Link>
+
+						<Link
+							to={"/all-songs"}
+							className={cn(
+								buttonVariants({
+									variant: "ghost",
+									className: "w-full justify-start text-white hover:bg-zinc-800",
+								}),
+							)}
+						>
+							<span className='ml-2 hidden md:inline'>All Songs</span>
+						</Link>
 					</SignedIn>
 				</div>
 			</div>

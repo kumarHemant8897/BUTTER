@@ -12,6 +12,8 @@ interface MusicStore {
 	featuredSongs: Song[];
 	madeForYouSongs: Song[];
 	trendingSongs: Song[];
+	searchResults: Song[];
+	isSearching: boolean;
 	stats: Stats;
 
 	fetchAlbums: () => Promise<void>;
@@ -21,6 +23,7 @@ interface MusicStore {
 	fetchTrendingSongs: () => Promise<void>;
 	fetchStats: () => Promise<void>;
 	fetchSongs: () => Promise<void>;
+	searchSongs: (query: string) => Promise<void>;
 	deleteSong: (id: string) => Promise<void>;
 	deleteAlbum: (id: string) => Promise<void>;
 }
@@ -34,6 +37,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 	madeForYouSongs: [],
 	featuredSongs: [],
 	trendingSongs: [],
+	searchResults: [],
+	isSearching: false,
 	stats: {
 		totalSongs: 0,
 		totalAlbums: 0,
@@ -158,6 +163,23 @@ export const useMusicStore = create<MusicStore>((set) => ({
 			set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
+		}
+	},
+
+	searchSongs: async (query: string) => {
+		if (!query.trim()) {
+			set({ searchResults: [], isSearching: false });
+			return;
+		}
+
+		set({ isSearching: true, error: null });
+		try {
+			const response = await axiosInstance.get(`/songs/search?q=${encodeURIComponent(query)}`);
+			set({ searchResults: response.data });
+		} catch (error: any) {
+			set({ error: error.response?.data?.message || "Search failed" });
+		} finally {
+			set({ isSearching: false });
 		}
 	},
 }));
